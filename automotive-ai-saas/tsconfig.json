@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@automotive/types/*": ["packages/types/src/*"],
+      "@automotive/database/*": ["packages/database/src/*"],
+      "@automotive/auth/*": ["packages/auth/src/*"],
+      "@automotive/events/*": ["packages/events/src/*"],
+      "@automotive/ai/*": ["packages/ai/src/*"],
+      "@automotive/ui/*": ["packages/ui/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build", ".wrangler"]
+}

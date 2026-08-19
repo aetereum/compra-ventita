@@ -1,0 +1,74 @@
+name = "automotive-ai-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm run build"
+
+[env]
+NODE_ENV = "production"
+LOG_LEVEL = "info"
+
+[vars]
+JWT_SECRET = ""
+JWT_REFRESH_SECRET = ""
+STRIPE_SECRET_KEY = ""
+STRIPE_WEBHOOK_SECRET = ""
+WHATSAPP_TOKEN = ""
+WHATSAPP_PHONE_NUMBER_ID = ""
+WHATSAPP_VERIFY_TOKEN = ""
+INSTAGRAM_APP_ID = ""
+INSTAGRAM_APP_SECRET = ""
+OPENAI_API_KEY = ""
+ANTHROPIC_API_KEY = ""
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "automotive-ai-db"
+database_id = ""
+
+# R2 Buckets
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "automotive-ai-assets"
+
+# KV Namespaces
+[[kv_namespaces]]
+binding = "KV"
+id = ""
+preview_id = ""
+
+# Queues
+[[queues]]
+binding = "EVENT_QUEUE"
+queue_name = "events"
+
+[[queues]]
+binding = "VIDEO_QUEUE"
+queue_name = "video-jobs"
+
+[[queues]]
+binding = "EMAIL_QUEUE"
+queue_name = "email-jobs"
+
+# Workers AI
+[ai]
+binding = "AI"
+
+# Custom domains (configure after deployment)
+# routes = [
+#   { pattern = "api.yourdomain.com/*", zone_name = "yourdomain.com" }
+# ]
+
+[observability]
+enabled = true
+logs = true
+metrics = true
+tracing = true
+sampling_rate = 0.1
+
+[limits]
+cpu_ms = 50000
+memory_mb = 128

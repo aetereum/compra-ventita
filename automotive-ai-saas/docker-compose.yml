@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # API Service (Cloudflare Workers with Miniflare)
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+      target: dev
+    container_name: automotive-ai-api
+    ports:
+      - "8787:8787"
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - JWT_SECRET=dev-secret-change-in-production
+      - JWT_REFRESH_SECRET=dev-refresh-secret-change-in-production
+    volumes:
+      - ../apps/api:/app/apps/api
+      - ../packages:/app/packages
+      - ../pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ../package.json:/app/package.json
+    command: pnpm dev:api
+    depends_on:
+      - miniflare
+
+  # Web Service (Next.js)
+  web:
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+      target: dev
+    container_name: automotive-ai-web
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8787
+    volumes:
+      - ../apps/web:/app/apps/web
+      - ../packages:/app/packages
+      - ../pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ../package.json:/app/package.json
+    command: pnpm dev:web
+
+  # Miniflare for local Cloudflare simulation
+  miniflare:
+    image: cloudflare/miniflare:latest
+    container_name: automotive-ai-miniflare
+    ports:
+      - "8788:8788"
+    environment:
+      - MINIFLARE_BINDINGS=DB,R2,KV,EVENT_QUEUE,VIDEO_QUEUE,EMAIL_QUEUE,AI
+    volumes:
+      - ../apps/api/wrangler.toml:/app/wrangler.toml
+      - miniflare-data:/data
+    command: >
+      miniflare
+      --wrangler-config /app/wrangler.toml
+      --port 8788
+      --bindings DB,R2,KV,EVENT_QUEUE,VIDEO_QUEUE,EMAIL_QUEUE,AI
+
+volumes:
+  miniflare-data:

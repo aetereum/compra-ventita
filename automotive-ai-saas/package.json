@@ -1,0 +1,44 @@
+{
+  "name": "automotive-ai-saas",
+  "version": "0.0.1",
+  "private": true,
+  "description": "SaaS multi-tenant de inteligencia, adquisición, marketing, ventas y formación para el sector automotriz",
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:api\" \"pnpm dev:web\" \"pnpm dev:admin\"",
+    "dev:api": "pnpm --filter @automotive/api dev",
+    "dev:web": "pnpm --filter @automotive/web dev",
+    "dev:admin": "pnpm --filter @automotive/admin dev",
+    "dev:services": "concurrently \"pnpm dev:hermes\" \"pnpm dev:radar\" \"pnpm dev:crm\" \"pnpm dev:communications\" \"pnpm dev:marketing\" \"pnpm dev:video\" \"pnpm dev:academy\"",
+    "dev:hermes": "pnpm --filter @automotive/hermes dev",
+    "dev:radar": "pnpm --filter @automotive/radar dev",
+    "dev:vehicle-ai": "pnpm --filter @automotive/vehicle-ai dev",
+    "dev:crm": "pnpm --filter @automotive/crm dev",
+    "dev:communications": "pnpm --filter @automotive/communications dev",
+    "dev:marketing": "pnpm --filter @automotive/marketing dev",
+    "dev:video": "pnpm --filter @automotive/video dev",
+    "dev:academy": "pnpm --filter @automotive/academy dev",
+    "build": "pnpm build:packages && pnpm build:apps && pnpm build:services",
+    "build:packages": "pnpm --filter \"./packages/*\" build",
+    "build:apps": "pnpm --filter \"./apps/*\" build",
+    "build:services": "pnpm --filter \"./services/*\" build",
+    "deploy:cf": "pnpm build && pnpm --filter @automotive/api deploy:cf && pnpm --filter @automotive/web deploy:cf && pnpm --filter @automotive/admin deploy:cf",
+    "deploy:services": "pnpm --filter \"./services/*\" deploy:cf",
+    "db:migrate": "pnpm --filter @automotive/database migrate",
+    "db:seed": "pnpm --filter @automotive/database seed",
+    "test": "pnpm --filter \"./*\" test",
+    "test:unit": "pnpm --filter \"./*\" test:unit",
+    "test:integration": "pnpm --filter \"./*\" test:integration",
+    "lint": "pnpm --filter \"./*\" lint",
+    "typecheck": "pnpm --filter \"./*\" typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "concurrently": "^8.2.2",
+    "typescript": "^5.5.0",
+    "wrangler": "^3.60.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "pnpm@9.5.0"
+}
